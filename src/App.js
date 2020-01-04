@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import Bar from './Bar'
 import Stock from './Stock'
 
+import stocks from './mocks/stocks'
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -16,16 +18,23 @@ export default class App extends Component {
       const stockId = Object.keys(data)[0]
       const newData = {
         id: stockId,
+        name: stocks[stockId],
         value: data[stockId],
+        variant: 'none',
         timestamp: data.timestamp
       }
       const stockIdIndex = this.state.stocks.findIndex(stock => stockId === stock.id)
-      if (stockIdIndex === -1){
+      if (stockIdIndex === -1) {
         const newStocks = [...this.state.stocks, newData]
         this.setState({ stocks: newStocks })
       }
       else {
-        const newStocks = [...this.state.stocks]
+        const newStocks = this.state.stocks
+        if (newStocks[stockIdIndex].value < newData.value) {
+          newData['variant'] = 'up'
+        } else if (newStocks[stockIdIndex].value > newData.value) {
+          newData['variant'] = 'down'
+        }
         newStocks[stockIdIndex] = newData
         this.setState({ stocks: newStocks })
       }

@@ -26,5 +26,5 @@ npm run-script start
 
 For tests:
 ```
-npm run-script start
+npm run-script test
 ```
