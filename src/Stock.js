@@ -95,7 +95,6 @@ export default function Stock({ stocks }) {
     labels: [1, 2, 3, 4, 5, 6, 7, 8, 9],
     datasets: [
       {
-        // label: 'My First dataset',
         fill: true,
         lineTension: 0.5,
         backgroundColor: 'rgba(0,173,210,0.4)',
@@ -104,14 +103,10 @@ export default function Stock({ stocks }) {
         borderDash: [],
         borderDashOffset: 0.0,
         borderJoinStyle: 'miter',
-        pointBorderColor: 'rgba(75,192,192,1)',
-        pointBackgroundColor: '#fff',
-        pointBorderWidth: 1,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-        pointHoverBorderColor: 'rgba(220,220,220,1)',
-        pointHoverBorderWidth: 2,
-        pointRadius: 1,
+        pointBorderWidth: 0,
+        pointHoverRadius: 0,
+        pointHoverBorderWidth: 0,
+        pointRadius: 0,
         pointHitRadius: 10,
         data: [50, 40, 60, 30, 65, 20, 60, 55, 90]
       }
@@ -122,7 +117,10 @@ export default function Stock({ stocks }) {
     mantainAspectRatio: true,
     legend: {
       display: false
-   },
+    },
+    tooltips: {
+      enabled: false
+    },
     scales:{
       xAxes: [{
           display: false
@@ -146,7 +144,7 @@ export default function Stock({ stocks }) {
           </h1>
         </Grid>
         <Grid className={classes.buttonContainer} item xs={12} md={6}>
-          <h6 className={classes.buttonSubtitle}>Ordenar:</h6>
+          <h5 className={classes.buttonSubtitle}>Ordenar:</h5>
           <Button variant="contained" className={classes.button} disableElevation>
             Em Alta
           </Button>
@@ -163,11 +161,11 @@ export default function Stock({ stocks }) {
                 className={classes.image}
               />
               <div className={classes.nameContainer}>
-                <h6 className={classes.name}>{stock.name}</h6>
-                <h6 className={classes.name}>{stock.id}</h6>
+                <h5 className={classes.name}>{stock.name}</h5>
+                <h5 className={classes.name}>{stock.id}</h5>
               </div>
               <div>
-                <h6 className={classes.subtitle}>Preço do ativo</h6>
+                <h5 className={classes.subtitle}>Preço do ativo</h5>
                 <div className={classes.value}>
                   <h2 className={`${classes.valueVariant} ${classes[stock.variant]}`}>R$ {stock.value}</h2>
                   {stock.variant !== 'none' &&
