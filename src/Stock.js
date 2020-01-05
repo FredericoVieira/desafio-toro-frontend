@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
@@ -6,10 +6,12 @@ import Button from '@material-ui/core/Button'
 import { ReactSVG } from 'react-svg'
 import { Line } from 'react-chartjs-2'
 
+import compareValues from './utils/compare'
+
 import Up from './assets/up.svg'
 import Down from './assets/down.svg'
 
-import compareValues from './utils/compare'
+const IMAGES_URL = 'https://cdn.toroinvestimentos.com.br/corretora/images/quote/'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,6 +37,10 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 5,
     fontSize: 12,
     padding: '5px 30px'
+  },
+  buttonSelected:{
+    background: '#00ADD2',
+    color: '#FFFFFF'
   },
   dataContainer: {
     padding: '30px 30px 0px 30px',
@@ -86,10 +92,13 @@ const useStyles = makeStyles(theme => ({
 
 export default function Stock({ stocks }) {
   const classes = useStyles()
-  const IMAGES_URL = 'https://cdn.toroinvestimentos.com.br/corretora/images/quote/'
+  const [ localState, localSetState ] = useState({ selected: 'high' })
 
-  // const orderByHigh = () => localSetState({stocksToShow: localState.stocksToShow.sort(compareValues('value')), selected: 'high'})
-  // const [ localState, localSetState ] = useState({ stocksToShow: [], selected: 'none' })
+  if (localState.selected === 'high') {
+    stocks.sort(compareValues('variant', 'desc'))
+  } else if (localState.selected === 'low') {
+    stocks.sort(compareValues('variant'))
+  }
 
   const data = {
     labels: [1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -145,10 +154,20 @@ export default function Stock({ stocks }) {
         </Grid>
         <Grid className={classes.buttonContainer} item xs={12} md={6}>
           <h5 className={classes.buttonSubtitle}>Ordenar:</h5>
-          <Button variant="contained" className={classes.button} disableElevation>
+          <Button
+            variant="contained"
+            className={`${classes.button} ${localState.selected === 'high' && classes.buttonSelected}`}
+            onClick={() => localSetState({ selected: 'high' })}
+            disableElevation
+          >
             Em Alta
           </Button>
-          <Button variant="contained" className={classes.button} disableElevation>
+          <Button
+            variant="contained"
+            className={`${classes.button} ${localState.selected === 'low' && classes.buttonSelected}`}
+            onClick={() => localSetState({ selected: 'low' })}
+            disableElevation
+          >
             Em Baixa
           </Button>
         </Grid>
@@ -157,6 +176,7 @@ export default function Stock({ stocks }) {
             <Paper className={classes.paper}>
               <div className={classes.dataContainer}>
               <img
+                alt={`${stock.id}-image`}
                 src={`${IMAGES_URL}${stock.id.slice(0, 4)}.svg`}
                 className={classes.image}
               />
