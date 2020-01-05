@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
-import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button'
 import { ReactSVG } from 'react-svg'
+import { Line } from 'react-chartjs-2'
 
 import Up from './assets/up.svg'
 import Down from './assets/down.svg'
@@ -16,11 +17,9 @@ const useStyles = makeStyles(theme => ({
     padding: '30px 80px'
   },
   title: {
-    fontFamily: 'sans-serif',
     fontSize: 42
   },
   buttonContainer: {
-    fontFamily: 'sans-serif',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end'
@@ -36,6 +35,9 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 5,
     fontSize: 12,
     padding: '5px 30px'
+  },
+  dataContainer: {
+    padding: '30px 30px 0px 30px',
   },
   image: {
     width: 100
@@ -67,16 +69,19 @@ const useStyles = makeStyles(theme => ({
     color: '#F44336'
   },
   paper: {
-    padding: theme.spacing(2),
-    fontFamily: 'sans-serif',
     color: theme.palette.text.secondary,
     border: '1px solid #D1D5D7',
     borderRadius: 0,
     boxShadow: 'none',
     boxSizing: 'border-box',
-    padding: '20px 30px',
-    minHeight: 300
+    height: 280,
+    position: 'relative'
   },
+  graph: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%'
+  }
 }))
 
 export default function Stock({ stocks }) {
@@ -85,6 +90,52 @@ export default function Stock({ stocks }) {
 
   // const orderByHigh = () => localSetState({stocksToShow: localState.stocksToShow.sort(compareValues('value')), selected: 'high'})
   // const [ localState, localSetState ] = useState({ stocksToShow: [], selected: 'none' })
+
+  const data = {
+    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    datasets: [
+      {
+        // label: 'My First dataset',
+        fill: true,
+        lineTension: 0.5,
+        backgroundColor: 'rgba(0,173,210,0.4)',
+        borderColor: '#00ADD2',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: [50, 40, 60, 30, 65, 20, 60, 55, 90]
+      }
+    ]
+  }
+
+  const options = {
+    mantainAspectRatio: true,
+    legend: {
+      display: false
+   },
+    scales:{
+      xAxes: [{
+          display: false
+      }],
+      yAxes: [{
+        display: false,
+        ticks: {
+          max: 100,
+          min: 0,
+        }
+      }]
+    }
+  }
     
   return (
     <div className={classes.root}>
@@ -106,6 +157,7 @@ export default function Stock({ stocks }) {
         {stocks.map(stock =>
           <Grid key={stock.id} item xs={12} md={3}>
             <Paper className={classes.paper}>
+              <div className={classes.dataContainer}>
               <img
                 src={`${IMAGES_URL}${stock.id.slice(0, 4)}.svg`}
                 className={classes.image}
@@ -125,6 +177,14 @@ export default function Stock({ stocks }) {
                   }
                   </div>
                 </div>
+              </div>
+              <div className={classes.graph}>
+                <Line
+                  data={data}
+                  height={100}
+                  options={options}
+                />
+              </div>
             </Paper>
           </Grid>
         )}
