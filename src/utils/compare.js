@@ -1,7 +1,6 @@
 export default function compareValues(key, order = 'asc') {
   return function innerSort(a, b) {
     if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-      // property doesn't exist on either object
       return 0;
     }
 
@@ -18,6 +17,6 @@ export default function compareValues(key, order = 'asc') {
     }
     return (
       (order === 'desc') ? (comparison * -1) : comparison
-    );
-  };
+    )
+  }
 }

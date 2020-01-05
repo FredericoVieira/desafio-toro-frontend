@@ -4,8 +4,8 @@ Displays stock prices received through a websocket connection.
 
 ### Prerequisites:
 
-- npm
 - docker
+- npm
 
 ### To set this projetct locally:
 

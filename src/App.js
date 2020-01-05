@@ -8,8 +8,8 @@ import Stock from './components/Stock'
 
 export default class App extends Component {
   constructor(props) {
-    super(props);
-    this.state = { stocks: [] };
+    super(props)
+    this.state = { stocks: [] }
   }
 
   componentDidMount() {
@@ -43,7 +43,6 @@ export default class App extends Component {
   }
 
   render() {
-
     return (
       <>
         <Bar />
@@ -52,40 +51,3 @@ export default class App extends Component {
     )
   }
 }
-
-// import React, { useEffect, useState } from 'react'
-
-// const App = () => {
-//   const [ localState, localSetState ] = useState({ stocks: [] })
-
-//   const socket = new WebSocket("ws://localhost:8080/quotes")
-
-//   useEffect(() => {
-//     socket.onmessage = event => {
-//       console.log(localState)
-//       console.log(localState.stocks)
-//       const data = JSON.parse(event.data)
-//       const stockId = Object.keys(data)[0]
-//       const stockIdIndex = localState.stocks.findIndex(stock => stockId in stock)
-//       if (stockIdIndex === -1){
-//         const newStocks = [...localState.stocks, data]
-//         localSetState({ stocks: newStocks })
-//       }
-//       else {
-//         const newStocks = [...localState.stocks]
-//         newStocks[stockIdIndex] = data
-//         localSetState({ stocks: newStocks })
-//       }
-//     }
-//   }, [localState])
-
-//   return (
-//     <div>
-//       {localState.stocks.map(stock =>
-//         JSON.stringify(stock)
-//       )}
-//     </div>
-//   )
-// }
-
-// export default App

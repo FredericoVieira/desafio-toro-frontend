@@ -28,7 +28,8 @@ const useStyles = makeStyles(theme => ({
   },
   buttonSubtitle: {
     color: '#7E868E',
-    fontWeight: 100
+    fontWeight: 100,
+    marginRight: 5
   },
   button: {
     background: '#ECEDEE',
@@ -95,6 +96,7 @@ export default function Stock({ stocks }) {
   const classes = useStyles()
   const [ localState, localSetState ] = useState({ selected: 'high' })
 
+  stocks.sort(compareValues('value', 'desc'))
   if (localState.selected === 'high') {
     stocks.sort(compareValues('variant', 'desc'))
   } else if (localState.selected === 'low') {
