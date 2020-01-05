@@ -4,7 +4,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import { ReactSVG } from 'react-svg'
 
-import ToroLogo from './assets/toro.svg'
+import ToroLogo from '../assets/toro.svg'
 
 const useStyles = makeStyles(theme => ({
   root: {

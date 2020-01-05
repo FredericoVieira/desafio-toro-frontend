@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 
-import Bar from './Bar'
-import Stock from './Stock'
+import { stocks } from './mocks/stocks'
+import { API_URL } from './config'
 
-import stocks from './mocks/stocks'
+import Bar from './components/Bar'
+import Stock from './components/Stock'
 
 export default class App extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    const socket = new WebSocket("ws://localhost:8080/quotes")
+    const socket = new WebSocket(`ws://${API_URL}/quotes`)
     socket.onmessage = event => {
       const data = JSON.parse(event.data)
       const stockId = Object.keys(data)[0]

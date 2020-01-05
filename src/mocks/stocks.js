@@ -1,4 +1,4 @@
-const stocks = {
+export const stocks = {
   PETR4: 'Petrobras SA',
   VALE3: 'Vale SA',
   BBAS3: 'Banco do Brasil SA',
@@ -40,5 +40,3 @@ const stocks = {
   CMIG4: 'CEMIG',
   SBSP3: 'Companhia de Saneamento Básico do Estado de São Paulo'
 }
-
-export default stocks

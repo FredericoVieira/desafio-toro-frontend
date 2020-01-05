@@ -6,12 +6,12 @@ import Button from '@material-ui/core/Button'
 import { ReactSVG } from 'react-svg'
 import { Line } from 'react-chartjs-2'
 
-import compareValues from './utils/compare'
+import { IMAGES_URL } from '../config'
+import { graphs } from '../mocks/graphs'
+import compareValues from '../utils/compare'
 
-import Up from './assets/up.svg'
-import Down from './assets/down.svg'
-
-const IMAGES_URL = 'https://cdn.toroinvestimentos.com.br/corretora/images/quote/'
+import Up from '../assets/up.svg'
+import Down from '../assets/down.svg'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,7 +36,8 @@ const useStyles = makeStyles(theme => ({
     textTransform: 'capitalize',
     marginLeft: 5,
     fontSize: 12,
-    padding: '5px 30px'
+    padding: '5px 30px',
+    whiteSpace: 'nowrap'
   },
   buttonSelected:{
     background: '#00ADD2',
@@ -99,50 +100,6 @@ export default function Stock({ stocks }) {
   } else if (localState.selected === 'low') {
     stocks.sort(compareValues('variant'))
   }
-
-  const data = {
-    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    datasets: [
-      {
-        fill: true,
-        lineTension: 0.5,
-        backgroundColor: 'rgba(0,173,210,0.4)',
-        borderColor: '#00ADD2',
-        borderCapStyle: 'butt',
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        pointBorderWidth: 0,
-        pointHoverRadius: 0,
-        pointHoverBorderWidth: 0,
-        pointRadius: 0,
-        pointHitRadius: 10,
-        data: [50, 40, 60, 30, 65, 20, 60, 55, 90]
-      }
-    ]
-  }
-
-  const options = {
-    mantainAspectRatio: true,
-    legend: {
-      display: false
-    },
-    tooltips: {
-      enabled: false
-    },
-    scales:{
-      xAxes: [{
-          display: false
-      }],
-      yAxes: [{
-        display: false,
-        ticks: {
-          max: 100,
-          min: 0,
-        }
-      }]
-    }
-  }
     
   return (
     <div className={classes.root}>
@@ -176,7 +133,7 @@ export default function Stock({ stocks }) {
             <Paper className={classes.paper}>
               <div className={classes.dataContainer}>
               <img
-                alt={`${stock.id}-image`}
+                alt={stock.id}
                 src={`${IMAGES_URL}${stock.id.slice(0, 4)}.svg`}
                 className={classes.image}
               />
@@ -198,9 +155,9 @@ export default function Stock({ stocks }) {
               </div>
               <div className={classes.graph}>
                 <Line
-                  data={data}
+                  data={graphs.data}
                   height={100}
-                  options={options}
+                  options={graphs.options}
                 />
               </div>
             </Paper>
