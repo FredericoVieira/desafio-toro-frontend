@@ -89,7 +89,19 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     bottom: 0,
     width: '100%'
-  }
+  },
+  loadingGraphWrapper: {
+    margin: 20
+  },
+  loadingGraph: {
+    textAlign: 'center',
+    marginBottom: 0
+  },
+  calculatingGraph: {
+    textAlign: 'center',
+    fontSize: 12,
+    marginTop: 5
+  },  
 }))
 
 export default function Stock({ stocks }) {
@@ -101,6 +113,24 @@ export default function Stock({ stocks }) {
     stocks.sort(compareValues('variant', 'desc'))
   } else if (localState.selected === 'low') {
     stocks.sort(compareValues('variant'))
+  }
+
+  const handleGraphData = (historic) => {
+    const labels = historic.map(h => h.timestamp)
+    const data = historic.map(v => v.value)
+    return {
+      labels,
+      datasets: [
+        {
+          fill: true,
+          lineTension: 0.5,
+          backgroundColor: 'rgba(0,173,210,0.4)',
+          borderColor: '#00ADD2',
+          pointRadius: 0,
+          data,
+        }
+      ]
+    }
   }
     
   return (
@@ -156,11 +186,17 @@ export default function Stock({ stocks }) {
                 </div>
               </div>
               <div className={classes.graph}>
-                <Line
-                  data={graphs.data}
-                  height={100}
-                  options={graphs.options}
-                />
+                {stock.historic.length > 2 ?
+                  <Line
+                    data={handleGraphData(stock.historic)}
+                    height={100}
+                    options={graphs.options}
+                  />
+                  : <div className={classes.loadingGraphWrapper}>
+                      <p className={classes.loadingGraph}>Carregando gráfico...</p>
+                      <p className={classes.calculatingGraph}>São necessários pelo menos dois valores!</p>
+                  </div>
+                }
               </div>
             </Paper>
           </Grid>

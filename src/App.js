@@ -22,7 +22,8 @@ export default class App extends Component {
         name: stocks[stockId],
         value: data[stockId],
         variant: 'none',
-        timestamp: data.timestamp
+        timestamp: data.timestamp,
+        historic: []
       }
       const stockIdIndex = this.state.stocks.findIndex(stock => stockId === stock.id)
       if (stockIdIndex === -1) {
@@ -36,7 +37,16 @@ export default class App extends Component {
         } else if (newStocks[stockIdIndex].value > newData.value) {
           newData['variant'] = 'down'
         }
-        newStocks[stockIdIndex] = newData
+        newStocks[stockIdIndex] = { 
+          ...newData,
+          historic: [
+            ...newStocks[stockIdIndex]['historic'],
+            { 
+              value: newData.value,
+              timestamp: newData.timestamp
+            }
+          ]
+        }
         this.setState({ stocks: newStocks })
       }
     }
